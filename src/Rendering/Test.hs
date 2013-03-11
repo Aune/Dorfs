@@ -1,10 +1,5 @@
-module Rendering.Test where
 
-
-import Map.Datatypes
-import Objects.Datatypes
-import Structures.Datatypes
-import Rendering.Datatypes
+module Main where
 
 import Graphics.UI.SDL as SDL
 import Graphics.UI.SDL.Image as SDLi
@@ -15,7 +10,7 @@ main = do
    SDL.setVideoMode 640 480 32 []
    
    -- Load images
-   image <- SDLi.load "Rendering/Images/Phoebus_16x16.png"
+   image <- SDLi.load "res/test/Phoebus_16x16.png"
             
 
    SDL.setCaption "Video Test!" "video test"
