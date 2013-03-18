@@ -15,14 +15,14 @@ main = do
 
    SDL.setCaption "Video Test!" "video test"
    mainSurf <- getVideoSurface
-   let r = Just (Rect 0 0 64 74)
-   SDL.blitSurface image r mainSurf Nothing
+   let blitRect (src, dst) = SDL.blitSurface image src mainSurf dst
+   mapM_ blitRect [(Just (Rect (240 - i) (240 - j) 16 16),Just (Rect i j 16 16))  | j <- [0..255], i <- [0..255], mod i 16  == 0, mod j 16 == 0]
    SDL.flip mainSurf
 
    eventLoop
    SDL.quit
    print "done"
     where 
-      eventLoop = SDL.waitEventBlocking >>= checkEvent
+      eventLoop            = SDL.waitEventBlocking >>= checkEvent
       checkEvent (KeyUp _) = return ()
       checkEvent _         = eventLoop
