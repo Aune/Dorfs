@@ -1,4 +1,4 @@
-module Map.Codecs where
+module Map.Codec where
 
 import Map.Datatypes
 import Text.Regex.Posix
@@ -34,4 +34,4 @@ buildMap propagation s = do aMap <- newArray propagation (Tile Stone Undug) :: I
     updateTile arr (pos, tile) = writeArray arr pos tile
     
 
-exampleMap = fromString "[[0,0,0],[5,5,1]]aaaa aaaa aaaa aaaa aaaa "
+exampleMap = fromString "[[0,0,0],[5,5,1]]a aa aaaa aaaa aaaa aaaa "
