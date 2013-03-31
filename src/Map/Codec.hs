@@ -33,5 +33,3 @@ buildMap propagation s = do aMap <- newArray propagation (Tile Stone Undug) :: I
     tiles = [charToTile(x)| x <- s, x /= '\n']
     updateTile arr (pos, tile) = writeArray arr pos tile
     
-
-exampleMap = fromString "[[0,0,0],[5,5,1]]a aa aaaa aaaa aaaa aaaa "

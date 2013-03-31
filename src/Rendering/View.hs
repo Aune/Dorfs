@@ -17,22 +17,20 @@ data View = View { top :: Int,
 right v = (left v) + (width v) - 1
 bottom v = (top v) + (height v) - 1 
 
-render :: View -> IO SDL.Surface
-render v =  do surface <- buildSurface v
-               mapM_ (blitPos v surface) (paintRange v)
-               return surface
+render :: View -> SDL.Surface -> IO ()
+render v surface =  do mapM_ (blitPos v surface) (paintRange v)
+                       return ()
   where 
-    buildSurface :: View -> IO SDL.Surface
-    buildSurface v = SDL.createRGBSurface [SDL.SWSurface] (width v) (height v) 
-                     32 0xFF 0xFF00 0xFF0000 0x00000000
-    
     paintRange :: View -> [Pos]
     paintRange v = [(Pos x y (level v)) | 
-                    x <- [(left v)..(right v)],   
-                    y <- [(top v)..(bottom v)] ]
+                    y <- [(top v)..(bottom v)],
+                    x <- [(left v)..(right v)] ]   
+ 
           
     posToRect :: Pos -> View -> Rect
-    posToRect (Pos x y z) v = Rect (x - (left v)) (y - (top v)) voxelSize voxelSize
+    posToRect (Pos x y z) v = Rect ((x - (left v)) * voxelSize) 
+                                   ((y - (top v)) * voxelSize)  
+                                   voxelSize voxelSize
         
     tileRect :: Tile -> Rect
     tileRect Tile {status = Open} = Rect 176 208 voxelSize voxelSize
@@ -41,9 +39,8 @@ render v =  do surface <- buildSurface v
     tileSurface = SDLi.load "res/test/Phoebus_16x16.png"
                  
     blitTile :: Tile -> Rect -> SDL.Surface-> SDL.Surface -> IO ()
-    blitTile t r src dst = SDL.blitSurface src (Just (tileRect t)) 
-                                           dst (Just r)  
-                           >> (return ())
+    blitTile t r src dst = do SDL.blitSurface src (Just (tileRect t))  dst (Just r) 
+                              return ()
                         
     blitPos :: View -> SDL.Surface -> Pos -> IO ()
     blitPos v dst p  =  do 
