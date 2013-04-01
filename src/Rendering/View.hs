@@ -6,5 +6,5 @@ voxelSize :: Int
 voxelSize = 16
 
 class View a where            
-  render :: a -> Surface -> IO ()
+  render :: a -> Rect -> Surface -> IO ()
    
